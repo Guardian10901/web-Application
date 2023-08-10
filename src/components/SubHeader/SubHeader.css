@@ -1,0 +1,29 @@
+.SubHeader {
+    display:flex;
+    flex-direction: row;
+    background: #FDFDFD 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 6px #9D9D9D29;
+    border-radius: 10px;
+    padding: 15px;
+    margin-left: 5px;
+}
+.create{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    float: right;
+    background-color: #EAF9FF;
+    border-radius: 20%;
+    padding: 5px;
+}
+.plus{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color:#03AEEE;
+    width: 45px;
+    height: 45px;
+    color: white;
+
+}

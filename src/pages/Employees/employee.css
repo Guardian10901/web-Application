@@ -1,0 +1,11 @@
+.main{
+    display: flex;
+    flex-direction: row;
+
+    background-color: #fafafa;
+}
+.left-box{
+    width: 100%;
+    gap: 15px;
+
+}

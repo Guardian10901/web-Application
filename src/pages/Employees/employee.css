@@ -1,11 +1,11 @@
-.main{
-    display: flex;
-    flex-direction: row;
+.main {
+  display: flex;
+  flex-direction: row;
 
-    background-color: #fafafa;
+  background-color: #fafafa;
 }
-.left-box{
-    width: 100%;
-    gap: 15px;
+.left-box {
+  width: 100%;
+  gap: 15px;
+}
 
-}

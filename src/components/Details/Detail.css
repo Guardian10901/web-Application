@@ -1,0 +1,32 @@
+.details{
+    display: flex;
+    flex-direction: row;
+    background: #FDFDFD 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 6px #9D9D9D29;
+    border-radius: 10px;
+    opacity: 1;
+    width: 80%;
+    margin-left: 5px;
+    flex-wrap: wrap;
+
+    
+
+}
+.sub-detail{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-direction: column;
+    width:18%;
+    
+    margin: 5px;
+
+
+    padding: 10px;
+
+    gap:10px;
+ 
+    
+    opacity: 1;
+}

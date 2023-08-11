@@ -1,0 +1,27 @@
+
+
+thead {
+
+    background-color: #EAF9FF;
+    height: 60px;
+    padding: 20px;
+    box-shadow: 0px 3px 6px #302e2e29;
+    margin-left: 20px;
+    margin-right: 10px;
+
+}
+td{
+    padding-left: 20px; 
+   
+    padding-right: 20px;
+}
+
+tr {
+    height: 60px;
+    align-items: center;
+    padding: 20px;
+    box-shadow: 0px 3px 6px #302e2e29;
+    margin-left: 5px;
+    margin-right: 10px;
+
+}

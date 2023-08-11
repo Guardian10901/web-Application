@@ -21,7 +21,7 @@ export const Login: React.FC = () => {
         <img src='/assets/img/banner.png' alt='login image'></img>
       </section>
       <section className='right_side'>
-        <img src="/assets/img/kv-logo.png" alt="kv-logo" />
+        <img src='/assets/img/kv-logo.png' alt='kv-logo' />
         <Input
           label='Username'
           placeholder='Username'

@@ -16,7 +16,7 @@ export const Login: React.FC = () => {
   };
 
   return (
-    <div className='main'>
+    <div className='page'>
       <section className='left_side'>
         <img src='/assets/img/banner.png' alt='login image'></img>
       </section>

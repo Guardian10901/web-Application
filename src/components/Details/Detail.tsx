@@ -16,12 +16,13 @@ export const Detail = () => {
       Address: 'Vandanam House, Kadavantra Po kochi 20'
     },
     {
-      name: 'Veena',
-      id: 2,
-      joining_date: '11/12/2000',
-      role: 'UI',
-      Status: 'Active',
-      expeirence: '5'
+      EmployeeName: 'Manoj Varma',
+      Joining_date: '23/12/2000',
+      Expeirence: '9',
+      Role: 'Software Developer',
+      Status: 'Inactive',
+      EmployeeId: 2,
+      Address: 'Jal vayu Flat No.20 ,Panampilly Nagar ,kochi'
     }
   ];
   const employee = data.find((e) => Number(id) == e.EmployeeId);

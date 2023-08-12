@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 type props = {
   head: string;
   type: string;
+  par: string;
 };
 export const SubHeader: React.FC<props> = (props) => {
   const navigate = useNavigate();
@@ -18,8 +19,9 @@ export const SubHeader: React.FC<props> = (props) => {
           </div>
         )}
         {props.type === 'edit' && (
-          <div className='edit' onClick={() => navigate('/employees/edit')}>
-            <button className='pen'>p</button>Edit
+          <div className='edit' onClick={() => navigate(`/employees/${props.par}/edit`)}>
+            <img className='pen' src='/assets/img/icons8-pencil-50.png' alt='pen' />
+            Edit
           </div>
         )}
       </div>

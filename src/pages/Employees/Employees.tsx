@@ -12,7 +12,7 @@ export const Employees = () => {
       <Navbar />
       <div className='left-box'>
         <Header />
-        <SubHeader type='create' head='Employee List' />
+        <SubHeader type='create' par='' head='Employee List' />
         <Table />
       </div>
     </div>

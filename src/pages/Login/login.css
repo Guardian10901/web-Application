@@ -1,16 +1,23 @@
-.main {
+
+.page {
     display: flex;
     flex-direction: row;
+    border: 32px solid white;
+    width: 100vw;
+    height: 100vh;
+    
 }
 
 .left_side {
-    background: #03AEEE;
+    
+    background: #03AEEE36;
     width: 50%;
-    height: 100vh;
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    
 
 }
 
@@ -21,14 +28,19 @@
     align-items: center;
     justify-content: center;
     width: 50%;
-    height: 100vh;
+    height: 100%;
     gap:40px;
     
 }
 
 .left_side img {
+    
     border-radius: 50%;
-    ;
+    width: 80%;
+    height: 80%;
+    border: 50px solid white;
+    opacity: 1;
+
 
 }
 
@@ -45,3 +57,4 @@
 Input{
     padding: 10px;
 }
+

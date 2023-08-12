@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import './Form.css';
 import React from 'react';
 type props = {
@@ -6,6 +6,7 @@ type props = {
 };
 export const Form: React.FC<props> = (props) => {
   const navigate = useNavigate();
+  const params = useParams();
 
   return (
     <div>
@@ -24,15 +25,21 @@ export const Form: React.FC<props> = (props) => {
         </div>
         <div>
           <label>Department</label>
-          <select placeholder='Choose Department'></select>
+          <select>
+            <option value='opton1'>Choose Department</option>
+          </select>
         </div>
         <div>
           <label>Role</label>
-          <select placeholder='Choose Role'></select>
+          <select>
+            <option value='opton1'>Choose Role</option>
+          </select>
         </div>
         <div>
           <label>Status</label>
-          <select placeholder='Status'></select>
+          <select>
+            <option value='opton1'>Choose Status</option>
+          </select>
         </div>
         <div>
           <label>Address</label>
@@ -40,10 +47,10 @@ export const Form: React.FC<props> = (props) => {
           <input type='text' placeholder='Address Line 1' />
           <input type='text' placeholder='Address Line 2' />
         </div>
-        {props.type === 'edit' && (
+        {props.type === 'Edit' && (
           <div>
             <label>Employee ID</label>
-            <input type='text' />
+            <input className='employeeid' type='text' disabled={true} value={params.id} />
           </div>
         )}
         <div className='button'>

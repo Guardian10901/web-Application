@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './table.css';
 import { Status } from '../status/Status';
 import { useNavigate } from 'react-router-dom';
+import { Button } from '../Button/Button';
 
 export const Table = () => {
   const data = [
@@ -25,6 +26,7 @@ export const Table = () => {
     }
   ];
   const navigate = useNavigate();
+  const [deleteAlert, setDeleteAlert] = useState(false);
 
   return (
     <div>
@@ -55,8 +57,8 @@ export const Table = () => {
                   src='/assets/icons/red-delete-10437.svg'
                   alt='delete'
                   onClick={(e) => {
-                    console.log(e);
                     e.stopPropagation();
+                    setDeleteAlert(true);
                   }}
                 />
                 <img
@@ -64,6 +66,7 @@ export const Table = () => {
                   alt='pen'
                   onClick={(e) => {
                     e.stopPropagation();
+                    setDeleteAlert(true);
 
                     return navigate(`/employees/${item.EmployeeId}/edit`);
                   }}
@@ -73,6 +76,19 @@ export const Table = () => {
           </tr>
         ))}
       </table>
+      {deleteAlert && (
+        <div className='fullScreen'>
+          <div className='AlertBox'>
+            <div className='text'>
+              <h4>Are you sure ? </h4> Do you really want to delete the employee?{' '}
+            </div>
+            <div className='AlertButtons'>
+              <Button text='Confirm' onClick={() => setDeleteAlert(false)} />
+              <Button text='Cancel' onClick={() => setDeleteAlert(false)} />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

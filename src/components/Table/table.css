@@ -33,3 +33,26 @@ tr {
   color: white;
   font-size: 25px;
 }
+.fullScreen{
+  position:absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  background-color: #707070;
+  
+}
+.AlertBox{
+  width: 400px;
+  height: 200px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.AlertButtons{
+  display: flex;
+  flex-direction: row;
+}

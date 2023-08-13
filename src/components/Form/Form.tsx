@@ -7,21 +7,53 @@ type props = {
 export const Form: React.FC<props> = (props) => {
   const navigate = useNavigate();
   const params = useParams();
+  const data = [
+    {
+      EmployeeName: 'Veena',
+      Joining_date: '11/12/2000',
+      Expeirence: '5',
+      Role: 'UI',
+      Status: 'Active',
+      EmployeeId: 1,
+      Address: 'Vandanam House, Kadavantra Po kochi 20'
+    },
+    {
+      EmployeeName: 'Manoj Varma',
+      Joining_date: '23/12/2000',
+      Expeirence: '9',
+      Role: 'Software Developer',
+      Status: 'Inactive',
+      EmployeeId: 2,
+      Address: 'Jal vayu Flat No.20 ,Panampilly Nagar ,kochi'
+    }
+  ];
 
   return (
     <div>
       <form>
         <div>
           <label>Employee Name</label>
-          <input type='text' placeholder='Employee Name'></input>
+          <input
+            type='text'
+            value={props.type === 'Edit' ? data[Number(params.id) - 1].EmployeeName : null}
+            placeholder='Employee Name'
+          ></input>
         </div>
         <div>
           <label>Joining Date</label>
-          <input type='text' placeholder='Joining Date'></input>
+          <input
+            type='text'
+            value={props.type === 'Edit' ? data[Number(params.id) - 1].Joining_date : null}
+            placeholder='Joining Date'
+          ></input>
         </div>
         <div>
           <label>Experience</label>
-          <input type='text' placeholder='Experience'></input>
+          <input
+            type='text'
+            value={props.type === 'Edit' ? data[Number(params.id) - 1].Expeirence : null}
+            placeholder='Experience'
+          ></input>
         </div>
         <div>
           <label>Department</label>

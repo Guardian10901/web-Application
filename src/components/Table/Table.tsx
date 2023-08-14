@@ -3,30 +3,25 @@ import './table.css';
 import { Status } from '../status/Status';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../Button/Button';
+import { useSelector, useDispatch } from 'react-redux';
 
 export const Table = () => {
-  const data = [
-    {
-      EmployeeName: 'Veena',
-      Joining_date: '11/12/2000',
-      Expeirence: '5',
-      Role: 'UI',
-      Status: 'Active',
-      EmployeeId: 1,
-      Address: 'Vandanam House, Kadavantra Po kochi 20'
-    },
-    {
-      EmployeeName: 'Manoj Varma',
-      Joining_date: '23/12/2000',
-      Expeirence: '9',
-      Role: 'Software Developer',
-      Status: 'Inactive',
-      EmployeeId: 2,
-      Address: 'Jal vayu Flat No.20 ,Panampilly Nagar ,kochi'
-    }
-  ];
+  const data = useSelector((state: any) => {
+    // eslint-disable-next-line no-debugger
+    return state.employees;
+  });
   const navigate = useNavigate();
   const [deleteAlert, setDeleteAlert] = useState(false);
+  const [id, setid] = useState(null);
+  const dispatch = useDispatch();
+  const handleDelete = () => {
+    setDeleteAlert(false);
+
+    dispatch({
+      type: 'Employee:Delete',
+      payload: { EmployeeId: id }
+    });
+  };
 
   return (
     <div>
@@ -59,6 +54,7 @@ export const Table = () => {
                   onClick={(e) => {
                     e.stopPropagation();
                     setDeleteAlert(true);
+                    setid(item.EmployeeId);
                   }}
                 />
                 <img
@@ -66,7 +62,6 @@ export const Table = () => {
                   alt='pen'
                   onClick={(e) => {
                     e.stopPropagation();
-                    setDeleteAlert(true);
 
                     return navigate(`/employees/${item.EmployeeId}/edit`);
                   }}
@@ -83,7 +78,12 @@ export const Table = () => {
               <h4>Are you sure ? </h4> Do you really want to delete the employee?{' '}
             </div>
             <div className='AlertButtons'>
-              <Button text='Confirm' onClick={() => setDeleteAlert(false)} />
+              <Button
+                text='Confirm'
+                onClick={() => {
+                  handleDelete();
+                }}
+              />
               <Button text='Cancel' onClick={() => setDeleteAlert(false)} />
             </div>
           </div>

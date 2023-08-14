@@ -1,10 +1,15 @@
 import React from 'react';
 import './button.css';
 
-type props = {
+export type props = {
   text: string;
-  onClick: () => void;
+  type?: 'submit' | 'button';
+  onClick?: () => void;
 };
 export const Button: React.FC<props> = (props) => {
-  return <button onClick={props.onClick}>{props.text} </button>;
+  return (
+    <button type={props.type} onClick={props.onClick} data-testid='button-test'>
+      {props.text}
+    </button>
+  );
 };

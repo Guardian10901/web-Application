@@ -36,7 +36,7 @@ export const Login: React.FC = () => {
           value={password}
           OnChange={(e) => setPassword(e.target.value)}
         />
-        <Button text='Submit' onClick={handleOnClick} />
+        <Button type ='button' text='Submit' onClick={handleOnClick} />
         {error && <div>Invalid Username or Password </div>}
       </section>
     </div>

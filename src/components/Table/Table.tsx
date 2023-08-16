@@ -3,13 +3,14 @@ import './table.css';
 import { Status } from '../status/Status';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../Button/Button';
-import { useSelector, useDispatch } from 'react-redux';
+import {  useDispatch } from 'react-redux';
+import { useGetEmployeeListQuery } from '../../pages/Employees/api';
 
 export const Table = () => {
-  const data = useSelector((state: any) => {
-    // eslint-disable-next-line no-debugger
-    return state.employees;
-  });
+  // const data = useSelector((state: any) => {
+  //   return state.employees;
+  // });
+  const { data, isSuccess } = useGetEmployeeListQuery();
   const navigate = useNavigate();
   const [deleteAlert, setDeleteAlert] = useState(false);
   const [id, setid] = useState(null);

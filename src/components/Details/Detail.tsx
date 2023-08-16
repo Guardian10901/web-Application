@@ -8,7 +8,6 @@ export const Detail = () => {
   const { id } = useParams();
 
   const data = useSelector((state: any) => {
-    // eslint-disable-next-line no-debugger
     return state.employees;
   });
   const employee = data.find((e) => Number(id) == e.EmployeeId);

@@ -2,6 +2,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import './Form.css';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { addEmployee } from '../../Actions/EmployeeActions';
 type props = {
   type: string;
 };
@@ -9,7 +10,6 @@ export const Form: React.FC<props> = (props) => {
   const navigate = useNavigate();
   const params = useParams();
   const data = useSelector((state: any) => {
-    // eslint-disable-next-line no-debugger
     return state.employees;
   });
   const [ename, setEname] = useState(
@@ -46,9 +46,8 @@ export const Form: React.FC<props> = (props) => {
 
   const handleSubmit = () => {
     props.type === 'Create' &&
-      dispatch({
-        type: 'Employee:Create',
-        payload: {
+      dispatch(
+        addEmployee({
           employee: {
             EmployeeName: ename,
             Joining_date: joining,
@@ -61,8 +60,8 @@ export const Form: React.FC<props> = (props) => {
             Address2: address2,
             Address3: address3
           }
-        }
-      });
+        })
+      );
     props.type === 'Edit' &&
       dispatch({
         type: 'Employee:Edit',

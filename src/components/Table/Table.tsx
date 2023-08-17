@@ -10,7 +10,7 @@ export const Table = () => {
   // const data = useSelector((state: any) => {
   //   return state.employees;
   // });
-
+  const role = localStorage.getItem('role');
   const { data: dataArr, isSuccess } = useGetEmployeeListQuery('');
   const [data, setData] = useState([]);
   const [deleteEmployee] = useDeleteEmployeeMutation();
@@ -57,7 +57,7 @@ export const Table = () => {
             </td>
             <td>{item.experience}</td>
             <td>
-              <div className='action'>
+              <div className='action' disabled={['Hr', 'Admin'].includes(role) ? false : true}>
                 <img
                   src='/assets/icons/red-delete-10437.svg'
                   alt='delete'

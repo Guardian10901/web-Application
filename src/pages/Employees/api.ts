@@ -39,6 +39,13 @@ export const employeeApi = baseApi.injectEndpoints({
         method: 'DELETE'
       }),
       invalidatesTags: ['Employee']
+    }),
+    getRoles: builder.query({
+      query: () => ({
+        url: '/api/roles',
+        method: 'GET'
+      }),
+      providesTags: ['Employee']
     })
   })
 });
@@ -48,5 +55,6 @@ export const {
   useCreateEmployeeMutation,
   useGetEmployeeByIdQuery,
   useLazyGetEmployeeByIdQuery,
-  useDeleteEmployeeMutation
+  useDeleteEmployeeMutation,
+  useGetRolesQuery
 } = employeeApi;

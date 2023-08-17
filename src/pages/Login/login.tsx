@@ -15,7 +15,6 @@ export const Login: React.FC = () => {
 
   const handleOnClick = () => {
     login({ username, password });
-
   };
 
   useEffect(() => {

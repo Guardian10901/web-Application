@@ -1,22 +1,31 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './table.css';
 import { Status } from '../status/Status';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../Button/Button';
-import {  useDispatch } from 'react-redux';
-import { useGetEmployeeListQuery } from '../../pages/Employees/api';
+import { useDispatch } from 'react-redux';
+import { useDeleteEmployeeMutation, useGetEmployeeListQuery } from '../../pages/Employees/api';
 
 export const Table = () => {
   // const data = useSelector((state: any) => {
   //   return state.employees;
   // });
-  const { data, isSuccess } = useGetEmployeeListQuery();
+
+  const { data: dataArr, isSuccess } = useGetEmployeeListQuery('');
+  const [data, setData] = useState([]);
+  const [deleteEmployee] = useDeleteEmployeeMutation();
+
+  useEffect(() => {
+    if (dataArr && isSuccess) setData(dataArr.data);
+  }, [dataArr, isSuccess]);
+
   const navigate = useNavigate();
   const [deleteAlert, setDeleteAlert] = useState(false);
   const [id, setid] = useState(null);
   const dispatch = useDispatch();
   const handleDelete = () => {
     setDeleteAlert(false);
+    deleteEmployee({ id: id });
 
     dispatch({
       type: 'Employee:Delete',
@@ -38,15 +47,15 @@ export const Table = () => {
         </thead>
 
         {data.map((item) => (
-          <tr key={item.EmployeeId} onClick={() => navigate(`/employees/${item.EmployeeId}`)}>
-            <td> {item.EmployeeName}</td>
-            <td> {item.EmployeeId}</td>
-            <td> {item.Joining_date}</td>
-            <td>{item.Role}</td>
+          <tr key={item.id} onClick={() => navigate(`/employees/${item.id}`)}>
+            <td> {item.name}</td>
+            <td> {item.id}</td>
+            <td> {item.joiningDate}</td>
+            <td>{item.role}</td>
             <td>
               <Status val={item.Status} />
             </td>
-            <td>{item.Expeirence}</td>
+            <td>{item.experience}</td>
             <td>
               <div className='action'>
                 <img
@@ -55,7 +64,7 @@ export const Table = () => {
                   onClick={(e) => {
                     e.stopPropagation();
                     setDeleteAlert(true);
-                    setid(item.EmployeeId);
+                    setid(item.id);
                   }}
                 />
                 <img
@@ -64,7 +73,7 @@ export const Table = () => {
                   onClick={(e) => {
                     e.stopPropagation();
 
-                    return navigate(`/employees/${item.EmployeeId}/edit`);
+                    return navigate(`/employees/${item.id}/edit`);
                   }}
                 />
               </div>

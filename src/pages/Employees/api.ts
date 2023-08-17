@@ -1,25 +1,52 @@
+import { EmployeeRequest } from '../../employee-object';
 import baseApi from '../../services/employeeService';
 
-interface Employee {
-  EmployeeName: string;
-  Joining_date: string;
-  Expeirence: string;
-  Role: string;
-  Status: string;
-  EmployeeId: number;
-  Department: string;
-  Address1: string;
-  Address2: string;
-  Address3: string;
-}
 export const employeeApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getEmployeeList: builder.query<Employee[], void>({
+    getEmployeeList: builder.query({
       query: () => ({
         url: '/employees',
         method: 'GET'
-      })
+      }),
+      providesTags: ['Employee']
+    }),
+    createEmployee: builder.mutation({
+      query: (body: EmployeeRequest) => ({
+        url: '/employees',
+        method: 'POST',
+        body
+      }),
+      invalidatesTags: ['Employee']
+    }),
+    editEmployee: builder.mutation({
+      query: ({ id, ...body }) => ({
+        url: `/employees/${id}`,
+        method: 'PUT',
+        body
+      }),
+      invalidatesTags: ['Employee']
+    }),
+    getEmployeeById: builder.query({
+      query: (params: { id: number }) => ({
+        url: `/employees/${params.id}`,
+        method: 'GET'
+      }),
+      providesTags: ['Employee']
+    }),
+    deleteEmployee: builder.mutation({
+      query: (params: { id: number }) => ({
+        url: `/employees/${params.id}`,
+        method: 'DELETE'
+      }),
+      invalidatesTags: ['Employee']
     })
   })
 });
-export const { useGetEmployeeListQuery } = employeeApi;
+export const {
+  useGetEmployeeListQuery,
+  useEditEmployeeMutation,
+  useCreateEmployeeMutation,
+  useGetEmployeeByIdQuery,
+  useLazyGetEmployeeByIdQuery,
+  useDeleteEmployeeMutation
+} = employeeApi;

@@ -3,7 +3,7 @@ const baseApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: 'http://localhost:3001/',
     prepareHeaders: (headers) => {
-      const token = localStorage.getItem('authToken');
+      const token = localStorage.getItem('Auth');
 
       if (token) headers.set('authorization', `Bearer ${token}`);
       console.log(headers);
@@ -15,7 +15,7 @@ const baseApi = createApi({
   refetchOnMountOrArgChange: true,
   refetchOnReconnect: true,
   endpoints: () => ({}),
-  tagTypes: []
+  tagTypes: ['Employee']
 });
 
 export default baseApi;

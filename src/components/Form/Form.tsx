@@ -1,88 +1,122 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import './Form.css';
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { addEmployee } from '../../Actions/EmployeeActions';
+import React, { useEffect, useState } from 'react';
+import {
+  useCreateEmployeeMutation,
+  useEditEmployeeMutation,
+  useLazyGetEmployeeByIdQuery
+} from '../../pages/Employees/api';
+
 type props = {
   type: string;
 };
+
 export const Form: React.FC<props> = (props) => {
   const navigate = useNavigate();
   const params = useParams();
-  const data = useSelector((state: any) => {
-    return state.employees;
-  });
-  const [ename, setEname] = useState(
-    props.type === 'Edit' ? data[Number(params.id) - 1].EmployeeName : null
-  );
+
+  const [createEmployee] = useCreateEmployeeMutation();
+  const [editemployee] = useEditEmployeeMutation();
+  const [getEmployeeById, { data: employee, isSuccess: employeefetch }] =
+    useLazyGetEmployeeByIdQuery();
+
+  useEffect(() => {
+    if (props.type === 'Edit') getEmployeeById({ id: Number(params.id) });
+  }, []);
+
+  useEffect(() => {
+    setEname(employee?.data?.name);
+    setjoining(employee?.data?.joiningDate);
+    set1(employee?.data?.address?.address_line_1);
+    setexperience(employee?.data?.experience);
+    setdepartment(employee?.data?.departmentId);
+    set(employee?.data?.role);
+    setStatus(employee?.data?.Status);
+    set2(employee?.data?.address?.address_line_2);
+    setCity(employee?.data?.address?.city);
+    setState(employee?.data?.address?.state);
+    setCountry(employee?.data?.address?.country);
+    setUsername(employee?.data?.username);
+    setPincode(employee?.data?.address?.pincode);
+  }, [employeefetch, employee]);
+
+  const [ename, setEname] = useState(props.type === 'Edit' ? employee?.data?.name : null);
   const [joining, setjoining] = useState(
-    props.type === 'Edit' ? data[Number(params.id) - 1].Joining_date : null
+    props.type === 'Edit' ? employee?.data?.joiningDate : null
   );
 
-  const [experience, setexperience] = useState(
-    props.type === 'Edit' ? data[Number(params.id) - 1].Expeirence : null
+  const [experience, setexperience] = useState<number>(
+    props.type === 'Edit' ? employee?.data?.experience : null
   );
-  const [department, setdepartment] = useState(
-    props.type === 'Edit' ? data[Number(params.id) - 1].Role : null
+  const [department, setdepartment] = useState<number>(
+    props.type === 'Edit' ? employee?.data?.departmentId : null
   );
-  const [Role, set] = useState(props.type === 'Edit' ? data[Number(params.id) - 1].Role : null);
+  const [Role, set] = useState(props.type === 'Edit' ? employee?.data?.role : null);
 
-  const [status, setStatus] = useState(
-    props.type === 'Edit' ? data[Number(params.id) - 1].Status : null
-  );
+  const [status, setStatus] = useState(props.type === 'Edit' ? employee?.data?.Status : null);
 
-  const [eid, seteid] = useState(
-    props.type === 'Edit' ? data[Number(params.id) - 1].EmployeeId : null
-  );
+  const [eid, seteid] = useState(props.type === 'Edit' ? Number(params.id) : null);
   const [address1, set1] = useState(
-    props.type === 'Edit' ? data[Number(params.id) - 1].Address1 : null
+    props.type === 'Edit' ? employee?.data?.address.address_line_1 : null
   );
   const [address2, set2] = useState(
-    props.type === 'Edit' ? data[Number(params.id) - 1].Address2 : null
+    props.type === 'Edit' ? employee?.data?.address.address_line_2 : null
   );
-  const [address3, set3] = useState(
-    props.type === 'Edit' ? data[Number(params.id) - 1].Address3 : null
+  const [city, setCity] = useState(props.type === 'Edit' ? employee?.data?.address.city : null);
+  const [state, setState] = useState(props.type === 'Edit' ? employee?.data?.address.state : null);
+  const [country, setCountry] = useState(
+    props.type === 'Edit' ? employee?.data?.address.country : null
   );
+  const [pincode, setPincode] = useState(
+    props.type === 'Edit' ? employee?.data?.address.pincode : null
+  );
+  const [username, setUsername] = useState(props.type === 'Edit' ? employee?.data?.username : null);
+  const [password, setPassword] = useState(props.type === 'Edit' ? ' ' : null);
 
   const handleSubmit = () => {
     props.type === 'Create' &&
-      dispatch(
-        addEmployee({
-          employee: {
-            EmployeeName: ename,
-            Joining_date: joining,
-            Expeirence: experience,
-            Department: department,
-            Role: Role,
-            Status: status,
-            EmployeeId: data.length + 1,
-            Address1: address1,
-            Address2: address2,
-            Address3: address3
-          }
-        })
-      );
-    props.type === 'Edit' &&
-      dispatch({
-        type: 'Employee:Edit',
-        payload: {
-          employee: {
-            EmployeeName: ename,
-            Joining_date: joining,
-            Expeirence: experience,
-            Department: department,
-            Role: Role,
-            Status: status,
-            EmployeeId: eid,
-            Address1: address1,
-            Address2: address2,
-            Address3: address3
-          }
+      createEmployee({
+        name: ename,
+        username,
+        password,
+        joiningDate: joining,
+        experience: Number(experience),
+        departmentId: Number(department),
+        role: Role,
+        Status: status,
+        address: {
+          address_line_1: address1,
+          address_line_2: address2,
+          city,
+          state,
+          country,
+          pincode
         }
       });
+
+    props.type === 'Edit' &&
+      editemployee({
+        id: eid,
+        name: ename,
+        username,
+        password,
+        joiningDate: joining,
+        experience: Number(experience),
+        departmentId: Number(department),
+        role: Role,
+        Status: status,
+        address: {
+          address_line_1: address1,
+          address_line_2: address2,
+          city,
+          state,
+          country,
+          pincode
+        }
+      });
+
     navigate('/employees');
   };
-  const dispatch = useDispatch();
 
   return (
     <div>
@@ -96,6 +130,27 @@ export const Form: React.FC<props> = (props) => {
             onChange={(e) => setEname(e.target.value)}
           ></input>
         </div>
+        <div>
+          <label>Username</label>
+          <input
+            type='text'
+            value={username}
+            placeholder='Username'
+            onChange={(e) => setUsername(e.target.value)}
+          ></input>
+        </div>
+
+        {props.type === 'Create' && (
+          <div>
+            <label>Password</label>
+            <input
+              type='text'
+              value={password}
+              placeholder='Password'
+              onChange={(e) => setPassword(e.target.value)}
+            ></input>
+          </div>
+        )}
         <div>
           <label>Joining Date</label>
           <input
@@ -111,20 +166,23 @@ export const Form: React.FC<props> = (props) => {
             type='text'
             value={experience}
             placeholder='Experience'
-            onChange={(e) => setexperience(e.target.value)}
+            onChange={(e) => setexperience(Number(e.target.value))}
           ></input>
         </div>
         <div>
           <label>Department</label>
-          <select onChange={(e) => setdepartment(e.target.value)}>
-            <option value='opton1'>Choose Department</option>
-            <option value='UI'>UI</option>
-            <option value='Software Developer'>Software Developer</option>
+          <select
+            onChange={(e) => setdepartment(Number(e.target.value))}
+            value={Number(department)}
+          >
+            <option value={1}>Choose Department Id</option>
+            <option value={2}>UI</option>
+            <option value={3}>Software Developer</option>
           </select>
         </div>
         <div>
           <label>Role</label>
-          <select onChange={(e) => set(e.target.value)}>
+          <select onChange={(e) => set(e.target.value)} value={Role}>
             <option value='opton1'>Choose Role</option>
             <option value='UI'>UI</option>
             <option value='Software Developer'>Software Developer</option>
@@ -141,21 +199,39 @@ export const Form: React.FC<props> = (props) => {
         <div>
           <label>Address</label>
           <input
-            placeholder='Flat No/House No'
+            placeholder='Addresss Line 1'
             value={address1}
             onChange={(e) => set1(e.target.value)}
           ></input>
           <input
             type='text'
-            placeholder='Address Line 1'
+            placeholder='Address Line 2'
             value={address2}
             onChange={(e) => set2(e.target.value)}
           />
           <input
             type='text'
-            placeholder='Address Line 2'
-            value={address3}
-            onChange={(e) => set3(e.target.value)}
+            placeholder='City'
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+          />
+          <input
+            type='text'
+            placeholder='State'
+            value={state}
+            onChange={(e) => setState(e.target.value)}
+          />
+          <input
+            type='text'
+            placeholder='Country'
+            value={country}
+            onChange={(e) => setCountry(e.target.value)}
+          />
+          <input
+            type='text'
+            placeholder='Pincode'
+            value={pincode}
+            onChange={(e) => setPincode(e.target.value)}
           />
         </div>
         {props.type === 'Edit' && (
@@ -166,7 +242,7 @@ export const Form: React.FC<props> = (props) => {
               type='text'
               disabled={true}
               value={params.id}
-              onChange={(e) => seteid(e.target.value)}
+              onChange={(e) => seteid(Number(e.target.value))}
             />
           </div>
         )}

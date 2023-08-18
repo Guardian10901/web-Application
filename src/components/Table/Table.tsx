@@ -1,32 +1,29 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './table.css';
 import { Status } from '../status/Status';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../Button/Button';
 
+import { useDeleteEmployeeMutation, useGetEmployeeListQuery } from '../../pages/Employees/api';
+
 export const Table = () => {
-  const data = [
-    {
-      EmployeeName: 'Veena',
-      Joining_date: '11/12/2000',
-      Expeirence: '5',
-      Role: 'UI',
-      Status: 'Active',
-      EmployeeId: 1,
-      Address: 'Vandanam House, Kadavantra Po kochi 20'
-    },
-    {
-      EmployeeName: 'Manoj Varma',
-      Joining_date: '23/12/2000',
-      Expeirence: '9',
-      Role: 'Software Developer',
-      Status: 'Inactive',
-      EmployeeId: 2,
-      Address: 'Jal vayu Flat No.20 ,Panampilly Nagar ,kochi'
-    }
-  ];
+  const role = localStorage.getItem('role');
+  const { data: dataArr, isSuccess } = useGetEmployeeListQuery('');
+  const [data, setData] = useState([]);
+  const [deleteEmployee] = useDeleteEmployeeMutation();
+
+  useEffect(() => {
+    if (dataArr && isSuccess) setData(dataArr.data);
+  }, [dataArr, isSuccess]);
+
   const navigate = useNavigate();
   const [deleteAlert, setDeleteAlert] = useState(false);
+  const [id, setid] = useState(null);
+
+  const handleDelete = () => {
+    setDeleteAlert(false);
+    deleteEmployee({ id: id });
+  };
 
   return (
     <div>
@@ -38,41 +35,44 @@ export const Table = () => {
           <td>Role</td>
           <td>Status</td>
           <td>Experience</td>
-          <td>Action</td>
+          {['Hr', 'Admin'].includes(role) && <td>Action</td>}
         </thead>
 
         {data.map((item) => (
-          <tr key={item.EmployeeId} onClick={() => navigate(`/employees/${item.EmployeeId}`)}>
-            <td> {item.EmployeeName}</td>
-            <td> {item.EmployeeId}</td>
-            <td> {item.Joining_date}</td>
-            <td>{item.Role}</td>
+          <tr key={item.id} onClick={() => navigate(`/employees/${item.id}`)}>
+            <td> {item.name}</td>
+            <td> {item.id}</td>
+            <td> {item.joiningDate}</td>
+            <td>{item.role}</td>
             <td>
               <Status val={item.Status} />
             </td>
-            <td>{item.Expeirence}</td>
-            <td>
-              <div className='action'>
-                <img
-                  src='/assets/icons/red-delete-10437.svg'
-                  alt='delete'
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setDeleteAlert(true);
-                  }}
-                />
-                <img
-                  src='/assets/img/icons8-pencil-100.png'
-                  alt='pen'
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setDeleteAlert(true);
+            <td>{item.experience}</td>
+            {['Hr', 'Admin'].includes(role) && (
+              <td>
+                <div className='action' data-testid='ActionDelete'>
+                  <img
+                    data-testid='delete'
+                    src='/assets/icons/red-delete-10437.svg'
+                    alt='delete'
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setDeleteAlert(true);
+                      setid(item.id);
+                    }}
+                  />
+                  <img
+                    src='/assets/img/icons8-pencil-100.png'
+                    alt='pen'
+                    onClick={(e) => {
+                      e.stopPropagation();
 
-                    return navigate(`/employees/${item.EmployeeId}/edit`);
-                  }}
-                />
-              </div>
-            </td>
+                      return navigate(`/employees/${item.id}/edit`);
+                    }}
+                  />
+                </div>
+              </td>
+            )}
           </tr>
         ))}
       </table>
@@ -83,7 +83,12 @@ export const Table = () => {
               <h4>Are you sure ? </h4> Do you really want to delete the employee?{' '}
             </div>
             <div className='AlertButtons'>
-              <Button text='Confirm' onClick={() => setDeleteAlert(false)} />
+              <Button
+                text='Confirm'
+                onClick={() => {
+                  handleDelete();
+                }}
+              />
               <Button text='Cancel' onClick={() => setDeleteAlert(false)} />
             </div>
           </div>

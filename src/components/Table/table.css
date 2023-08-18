@@ -35,12 +35,16 @@ tr {
 }
 .fullScreen{
   position:absolute;
+  top: 0;
+  left: 0;
+  z-index: 12;
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100vh;
   width: 100vw;
-  background-color: #707070;
+  background-color: #70707094;
+ 
   
 }
 .AlertBox{

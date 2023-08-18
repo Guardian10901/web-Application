@@ -6,7 +6,6 @@ import { Employees } from './pages/Employees/Employees';
 import { Employee_details } from './pages/Employee-details/Employee-details';
 import { CreateEdit } from './pages/Create-employee/Create';
 
-
 const App: FC = () => {
   return (
     <div className='App'>

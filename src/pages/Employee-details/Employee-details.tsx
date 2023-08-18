@@ -8,6 +8,7 @@ import { useParams } from 'react-router-dom';
 
 export const Employee_details = () => {
   const params = useParams();
+  const role = localStorage.getItem('role');
 
   console.log(params);
 
@@ -16,7 +17,11 @@ export const Employee_details = () => {
       <Navbar />
       <div className='left-box'>
         <Header />
-        <SubHeader type='edit' par={params.id} head='Employee Details' />
+        <SubHeader
+          type={['Hr', 'Admin'].includes(role) ? 'edit' : ''}
+          par={params.id}
+          head='Employee Details'
+        />
         <Detail />
       </div>
     </div>

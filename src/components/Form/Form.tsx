@@ -1,9 +1,12 @@
+/* eslint-disable react/jsx-key */
+/* eslint-disable no-debugger */
 import { useNavigate, useParams } from 'react-router-dom';
 import './Form.css';
 import React, { useEffect, useState } from 'react';
 import {
   useCreateEmployeeMutation,
   useEditEmployeeMutation,
+  useGetRolesQuery,
   useLazyGetEmployeeByIdQuery
 } from '../../pages/Employees/api';
 
@@ -14,15 +17,21 @@ type props = {
 export const Form: React.FC<props> = (props) => {
   const navigate = useNavigate();
   const params = useParams();
+  const [roleArr, setRole] = useState([]);
 
   const [createEmployee] = useCreateEmployeeMutation();
   const [editemployee] = useEditEmployeeMutation();
   const [getEmployeeById, { data: employee, isSuccess: employeefetch }] =
     useLazyGetEmployeeByIdQuery();
+  const { data: roleList, isSuccess: rolefetch } = useGetRolesQuery('');
 
   useEffect(() => {
     if (props.type === 'Edit') getEmployeeById({ id: Number(params.id) });
   }, []);
+
+  useEffect(() => {
+    if (rolefetch && roleList?.data) setRole(roleList.data);
+  }, [rolefetch, roleList]);
 
   useEffect(() => {
     setEname(employee?.data?.name);
@@ -176,16 +185,17 @@ export const Form: React.FC<props> = (props) => {
             value={Number(department)}
           >
             <option value={1}>Choose Department Id</option>
-            <option value={2}>UI</option>
-            <option value={3}>Software Developer</option>
+            <option value={2}>Sales</option>
+            <option value={3}>Accounts</option>
+            <option value={4}>Development</option>
           </select>
         </div>
         <div>
           <label>Role</label>
           <select onChange={(e) => set(e.target.value)} value={Role}>
-            <option value='opton1'>Choose Role</option>
-            <option value='UI'>UI</option>
-            <option value='Software Developer'>Software Developer</option>
+            {roleArr.map((e) => {
+              return <option value={e}>{e}</option>;
+            })}
           </select>
         </div>
         <div>

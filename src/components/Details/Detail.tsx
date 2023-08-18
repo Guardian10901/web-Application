@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import './Detail.css';
 import { useParams } from 'react-router-dom';
-// import { Status } from '../status/Status';
 import { useGetEmployeeByIdQuery } from '../../pages/Employees/api';
 import { EmployeeInterface } from '../../employee-object';
-// import { EmployeeInterface } from '../../employee-object';
+import { Status } from '../status/Status';
 
 export const Detail = () => {
   const { id } = useParams();
@@ -14,39 +13,59 @@ export const Detail = () => {
 
   useEffect(() => {
     if (dataArr && isSuccess) setData(dataArr.data);
-  }, [dataArr, isSuccess]);
-
-  console.log(dataArr);
+  }, [isSuccess]);
 
   return (
     <div className='details'>
       <div className='sub-detail'>
         <label>Employee Id</label>
-        <label>{data?.id}</label>
+        <label data-testid='id'>{data?.id}</label>
       </div>
       <div className='sub-detail'>
         <label>Employee Name</label>
-        <label>{data?.name}</label>
+        <label data-testid='name'>{data?.name}</label>
+      </div>
+      <div className='sub-detail'>
+        <label>Username</label>
+        <label data-testid='username'>{data?.username}</label>
       </div>
       <div className='sub-detail'>
         <label>Experience</label>
-        <label>{data?.experience}</label>
+        <label data-testid='experience'>{data?.experience}</label>
       </div>
       <div className='sub-detail'>
-        <label>Department</label>
-        <label>{data?.id}</label>
+        <label>Department ID</label>
+        <label data-testid='departmentid'>{data?.departmentId}</label>
       </div>
       <div className='sub-detail'>
-        <label>EmployeeId</label>
-        <label>{data?.id}</label>
+        <label>Joining Date</label>
+        <label data-testid='joining'>{data?.joiningDate}</label>
       </div>
       <div className='sub-detail'>
-        <label>EmployeeId</label>
-        <label>{data?.id}</label>
+        <label>Role</label>
+        <label data-testid='role'>{data?.role}</label>
       </div>
       <div className='sub-detail'>
-        <label>EmployeeId</label>
-        <label>{data?.id}</label>
+        <label>Status</label>
+        <label>
+          <Status val={data?.Status} />
+        </label>
+      </div>
+      <div className='sub-detail'>
+        <label>Address</label>
+        <label data-testid='address'>
+          {data?.address.address_line_1 +
+            ', ' +
+            data?.address.address_line_2 +
+            ', ' +
+            data?.address.city +
+            ', ' +
+            data?.address.state +
+            ', ' +
+            data?.address.country +
+            ', ' +
+            data?.address.pincode}
+        </label>
       </div>
     </div>
   );

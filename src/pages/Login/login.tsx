@@ -20,6 +20,7 @@ export const Login: React.FC = () => {
   useEffect(() => {
     if (data && isSuccess) {
       localStorage.setItem('Auth', data.data.token);
+      localStorage.setItem('role', data.data.employeeDetails.role);
       navigate('/employees');
     }
   }, [data, isSuccess]);

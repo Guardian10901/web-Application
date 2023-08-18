@@ -5,7 +5,10 @@ const baseApi = createApi({
     prepareHeaders: (headers) => {
       const token = localStorage.getItem('Auth');
 
+      const role = localStorage.getItem('role');
+
       if (token) headers.set('authorization', `Bearer ${token}`);
+      headers.set('role', role);
       console.log(headers);
 
       return headers;
